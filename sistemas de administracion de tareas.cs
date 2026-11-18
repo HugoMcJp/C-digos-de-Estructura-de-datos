@@ -2,88 +2,26 @@
 
 namespace proyecto6_tareas
 {
+    // Clase modelo que representa cada tarea dentro de la lista
     public class tarea
     {
-        public int id { get; set; }
-        public string descripcion { get; set; }
-        public string estado { get; set; }
+        public int id { get; set; }             // Número identificador único de la tarea
+        public string descripcion { get; set; } // Texto de lo que hay que hacer
+        public string estado { get; set; }      // Estado actual (por ejemplo: pendiente o completada)
 
+        // Constructor que recibe el id y la descripción, y la marca como pendiente por defecto
         public tarea(int id, string descripcion)
         {
+            // Ojo aquí: falta 'this.id = id;' y 'this.descripcion = descripcion;' para que no se asignen a sí mismos
             id = id;
             descripcion = descripcion;
             estado = "pendiente";
         }
 
+        // Sobrescribimos ToString para imprimir la tarea ya formateada en consola
         public override string ToString()
         {
             return $"{id}-{descripcion}-{estado}";
         }
     }
 }
- 
-
-namespace proyecto6_tareas
-{
-    public class listadoble
-    {
-        private nodo inicio;
-        private class nodo
-        {
-            public tarea datos;
-            public nodo anterior;
-            public nodo siguiente;
-
-            public nodo(tarea datos)
-            {
-                this.datos = datos;
-            }
-        }
-
-        public void insertar(tarea tarea)
-        {
-            nodo nuevo = new nodo(tarea);
-
-            if (inicio == null)
-            {
-                inicio = nuevo;
-                return;
-            }
-
-            nodo actual = inicio;
-
-            while (actual.siguiente != null)
-                actual = actual.siguiente;
-
-            actual.siguiente = nuevo;
-            nuevo.anterior = actual;
-        }
-
-        public tarea buscar(int id)
-        {
-            nodo actual = inicio;
-            while (actual != null)
-            {
-                if (actual.datos.id == id)
-                    return actual.datos;
-                actual = actual.siguiente;
-            }
-
-            return null;
-        }
-
-        public void mostrar()
-        {
-            nodo actual = inicio;
-            while (actual != null)
-            {
-                Console.WriteLine(actual.datos);
-                actual = actual.siguiente;
-            }
-        }
-    }
-}
-
-
-
- 
