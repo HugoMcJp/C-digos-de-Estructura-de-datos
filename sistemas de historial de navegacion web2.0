@@ -4,110 +4,47 @@ using System.Text.Json.Nodes;
 
 namespace proyecto5_navegador
 {
+    // Clase Pila para guardar el historial de páginas visitadas (LIFO: la última en entrar es la primera en salir)
     public class pila
     {
+        // Apuntador al nodo que está hasta arriba de la pila
         private nodo tope;
 
+        // Clase interna que representa cada página guardada en la pila
         private class nodo
         {
-            public string pagina;
-            public nodo siguiente;
+            public string pagina;      // Guarda la URL o nombre de la página
+            public nodo siguiente;     // Apuntador al nodo que quedó abajo
 
+            // Constructor del nodo
             public nodo(string pagina)
             {
+                // Ojo aquí: falta 'this.pagina = pagina;' para que el parámetro no se asigne a sí mismo
                 pagina = pagina;
             }
         }
 
+        // Mete una nueva página hasta arriba de la pila
         public void push(string pagina)
         {
-            nodo Nodo = new nodo(pagina);
-            Nodo.siguiente = tope;
-            tope = Nodo;
+            nodo Nodo = new nodo(pagina); // Creamos el nodo nuevo
+            Nodo.siguiente = tope;        // Lo enlazamos con el que estaba antes arriba
+            tope = Nodo;                  // Actualizamos el tope al nuevo nodo
         }
 
+        // Saca y devuelve la página que está hasta arriba de la pila
         public string pop()
         {
             if (tope == null)
-                return null;
+                return null; // Si ya no hay páginas guardadas, regresamos null
 
-            string pagina = tope.pagina;
-            tope = tope.siguiente;
+            string pagina = tope.pagina; // Rescatamos el nombre de la página antes de borrarla
+            tope = tope.siguiente;       // Movemos el tope al nodo de abajo
 
             return pagina;
         }
     }
 }
-
-
-namespace proyecto5_navegador
-{
-    internal class Program
-    {
-        static pila atras = new pila();
-        static pila adelante = new pila();
-
-        static string actual = "inicio";
-
-        static void Main()
-        {
-            int opcion;
-
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("===NAVEGADOR===");
-                Console.WriteLine($"Pagina actual: {actual}");
-                Console.WriteLine("1. visitar pagina");
-                Console.WriteLine("2. atras");
-                Console.WriteLine("3. adelante");
-                Console.WriteLine("0. salir");
-                Console.Write("opcion: ");
-
-                opcion = int.Parse(Console.ReadLine());
-
-                switch (opcion)
-                {
-                    case 1:
-                        atras.push(actual);
-
-                        Console.Write("nueva pagina: ");
-                        actual = Console.ReadLine();
-
-                        break;
-
-                    case 2:
-                        string anterior = atras.pop();
-
-                        if (anterior != null)
-                        {
-                            adelante.push(actual);
-                            actual = anterior;
-                        }
-
-                        break;
-
-                    case 3:
-                        string siguiente = adelante.pop();
-
-                        if (siguiente != null)
-                        {
-                            atras.push(actual);
-                            actual = siguiente;
-                        }
-
-                        break;
-                }
-
-            } while (opcion != 0);
-            }
-        }
-    }
-
-
-
-
-          
 
 
 
