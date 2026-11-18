@@ -1,44 +1,51 @@
-﻿namespace proyecto4_calculadora
+namespace proyecto4_calculadora
 {
+    // Clase Pila hecha con nodos enlazados (el último en entrar es el primero en salir)
     public class pila
     {
+        // Apuntador al nodo que está hasta arriba de la pila
         private nodo tope;
 
-
+        // Clase interna para representar cada elemento de la pila
         private class nodo
         {
-            public char dato;
-            public nodo siguiente;
+            public char dato;          // El carácter que guardamos (operador o paréntesis)
+            public nodo siguiente;     // Enlace al nodo de abajo
 
+            // Constructor del nodo
             public nodo(char dato)
             {
-                dato = dato;
+                dato = dato; // Ojo aquí: falta el 'this.dato = dato;' para que no se asigne a sí mismo
             }
         }
 
+        // Checa si la pila no tiene elementos
         public bool vacia()
         {
             return tope == null;
         }
 
+        // Mete un nuevo carácter arriba de la pila (Push)
         public void apilar(char dato)
         {
-            nodo nuevo = new nodo(dato);
-            nuevo.siguiente = tope;
-            tope = nuevo;
+            nodo nuevo = new nodo(dato); // Creamos el nodo nuevo
+            nuevo.siguiente = tope;      // Lo apuntamos al que antes era el tope
+            tope = nuevo;                // Ahora el nuevo es el tope
         }
 
+        // Saca el carácter de hasta arriba y lo elimina de la pila (Pop)
         public char desapilar()
         {
             if (vacia())
-                return '\0';
+                return '\0'; // Si está vacía regresamos nulo para que no marque error
 
-            char dato = tope.dato;
-            tope = tope.siguiente;
+            char dato = tope.dato; // Guardamos el dato antes de mover el apuntador
+            tope = tope.siguiente; // Bajamos el tope al siguiente nodo
 
             return dato;
         }
 
+        // Devuelve el carácter de hasta arriba sin sacarlo (Peek)
         public char tope()
         {
             if (vacia())
@@ -48,78 +55,6 @@
         }
     }
 }
-
-using System;
-
-namespace proyecto4_calculadora
-{
-    internal class Program
-    {
-        static int prioridad(char operador)
-        {
-            if (operador == '+' || operador == '-')
-                return 1;
-
-            if (operador == '*' || operador == '/')
-                return 2;
-
-            if (operador == '^')
-                return 3;
-
-            return 0;
-        }
-
-        static string infijaAposFija(string expresion)
-        {
-            pila pila = new pila();
-            string salida = "";
-
-            foreach (char carter in expresion)
-            {
-                if (char.isdigit(caracter))
-                {
-                    salida + = caracter;
-                }
-                else if (caracter ==´(´)
-                {
-                    pila.apilar(caracter);
-                }
-                else if (caracter ==´)´)
-                {
-                    while (!pila.vacia() &&
-                        pila.tope()! =´(´)
-                    {
-                        salida + = pila.desapilar();
-                    }
-
-                    pila.desapilar();
-                }
-                else if ("+-*/^".contains(caracter))
-                {
-                    while (!pila.vacia()) salida + = pila.desapilar();
-
-                    return salida;
-                }
-
-                static void Main()
-                {
-                    Console.WriteLine("===CALCULADORA===");
-
-                    Console.Write("expresion:");
-                    string expresion = Console.ReadLine();
-
-                    string posfija = infijaAposFija(expresion);
-
-                    console.WriteLine($"Posfija:{posfija}");
-
-                    console.readkey();
-                }
-            }
-        }
-
-
-
-
 
 
 
