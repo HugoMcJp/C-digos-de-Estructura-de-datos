@@ -1,121 +1,60 @@
-﻿namespace proyecto4_calculadora
+namespace proyecto4_calculadora
 {
+    // Clase para manejar la estructura de datos Pila (LIFO: el último que entra es el primero que sale)
     public class pila
     {
-        private nodo tope;
+        // Apuntador al elemento que está hasta arriba de la pila
+        private nodo cima;
 
-
+        // Clase interna para crear cada "cajita" o nodo de la pila
         private class nodo
         {
-            public char dato;
-            public nodo siguiente;
+            public char dato;          // Guarda el operador o paréntesis
+            public nodo siguiente;     // Apunta al nodo que quedó abajo
 
+            // Constructor para inicializar el nodo con su dato
             public nodo(char dato)
             {
-                dato = dato;
+                this.dato = dato;
             }
         }
 
+        // Revisa si la pila no tiene nada
         public bool vacia()
         {
-            return tope == null;
+            return cima == null;
         }
 
+        // Mete un nuevo dato hasta arriba de la pila (Push)
         public void apilar(char dato)
         {
-            nodo nuevo = new nodo(dato);
-            nuevo.siguiente = tope;
-            tope = nuevo;
+            nodo nuevo = new nodo(dato); // Creamos el nodo
+            nuevo.siguiente = cima;      // Lo enlazamos con el que estaba antes
+            cima = nuevo;                // Ahora este nuevo es el de hasta arriba
         }
 
+        // Saca y borra el dato de hasta arriba (Pop)
         public char desapilar()
         {
             if (vacia())
-                return '\0';
+                return '\0'; // Si está vacía regresamos carácter nulo para que no truene
 
-            char dato = tope.dato;
-            tope = tope.siguiente;
+            char dato = cima.dato; // Rescatamos el valor antes de borrarlo
+            cima = cima.siguiente; // Recorremos la cima al de abajo
 
             return dato;
         }
 
+        // Solo nos deja ver qué hay hasta arriba sin sacarlo (Peek)
         public char tope()
         {
             if (vacia())
                 return '\0';
 
-            return tope.dato;
+            return cima.dato;
         }
     }
 }
-
-using System;
-
-namespace proyecto4_calculadora
-{
-    internal class Program
-    {
-        static int prioridad(char operador)
-        {
-            if (operador == '+' || operador == '-')
-                return 1;
-
-            if (operador == '*' || operador == '/')
-                return 2;
-
-            if (operador == '^')
-                return 3;
-
-            return 0;
-        }
-        static string infijaAposFija(string expresion)
-        {
-            pila pila = new pila();
-            string salida = "";
-
-            foreach (char carter in expresion)
-            {
-                if (char.isdigit(caracter))
-                {
-                    salida + = caracter;
-                }
-                else if (caracter ==´(´)
-                {
-                    pila.apilar(caracter);
-                }
-                else if (caracter ==´)´)
-                {
-                    while (!pila.vacia() &&
-                        pila.tope()! =´(´)
-                    {
-                        salida + = pila.desapilar();
-                    }
-
-                    pila.desapilar();
-                }
-                else if ("+-*/^".contains(caracter))
-                {
-                    while (!pila.vacia()) salida + = pila.desapilar();
-
-                    return salida;
-                }
-
-                static void Main()
-                {
-                    Console.WriteLine("===CALCULADORA===");
-
-                    Console.Write("expresion:");
-                    string expresion = Console.ReadLine();
-
-                    string posfija = infijaAposFija(expresion);
-
-                    console.WriteLine($"Posfija:{posfija}");
-
-                    console.readkey();
-                }
-            }
-        }
-
 
 
 
